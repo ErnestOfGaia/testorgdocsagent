@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myIRA.Fund Document Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>myIRA.Fund Document Assistant</h1>
+    </header>
+    
+    <div class="container">
+        <div class="section document-content">
+            <h2>Document Content</h2>
+            <div class="content-card">
+                <h3>Mission</h3>
+                <p>myIRA.Fund is a multi-stakeholder cooperative leveraging onchain technology to provide innovative, member-focused financial solutions. As a Colorado Public Benefit Corporation (PBC) operating as a Limited Cooperative Association (LCA), we are member-owned and governed, ensuring every participant has a voice in shaping their financial future.</p>
+            </div>
+            
+            <div class="content-card">
+                <h3>Vision</h3>
+                <p>We envision a future where every individual has equal access to secure, transparent, and community-driven retirement savings, leveraging AI-driven financial insights, smart contract automation, and decentralized cooperative governance.</p>
+            </div>
+            
+            <div class="content-card">
+                <h3>Core Values</h3>
+                <ul>
+                    <li>Democratic Governance & Member Ownership</li>
+                    <li>Security & Compliance</li>
+                    <li>Innovation & Accessibility</li>
+                    <li>Transparency & Trust</li>
+                    <li>Cooperation & Collective Growth</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section interaction">
+            <div class="interaction-card">
+                <h2>Ask Questions</h2>
+                <textarea id="question" placeholder="Ask a question about the document..." class="input-box"></textarea>
+                <button onclick="askQuestion()" class="primary-button">Ask</button>
+                <div id="answer" class="answer-box"></div>
+            </div>
+            
+            <div class="interaction-card">
+                <h2>Suggest Edits</h2>
+                <select id="section-select" class="section-selector">
+                    <option value="mission">Mission</option>
+                    <option value="vision">Vision</option>
+                    <option value="values">Core Values</option>
+                </select>
+                <textarea id="suggestion" placeholder="Suggest an edit..." class="input-box"></textarea>
+                <button onclick="submitSuggestion()" class="primary-button">Submit Suggestion</button>
+            </div>
+            
+            <div class="interaction-card">
+                <div id="suggestions-history">
+                    <h3>Recent Suggestions</h3>
+                    <ul id="suggestions-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
