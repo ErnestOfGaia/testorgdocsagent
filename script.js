@@ -96,6 +96,114 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+// Add these functions to your existing JavaScript
+
+// Initialize speech synthesis
+const speechSynthesis = window.speechSynthesis;
+let currentUtterance = null;
+
+// Bear voice settings
+const bearVoiceSettings = {
+    pitch: 0.8,  // Slightly deeper voice
+    rate: 0.9,   // Slightly slower
+    volume: 1
+};
+
+// Reading states
+let isReading = false;
+let activeButton = null;
+
+function readSection(section) {
+    // If already reading, stop current reading
+    if (isReading) {
+        stopReading();
+        return;
+    }
+
+    const button = event.currentTarget;
+    let textToRead = '';
+
+    // Get text based on section
+    switch(section) {
+        case 'mission':
+            textToRead = document.getElementById('mission-text').textContent;
+            break;
+        case 'vision':
+            textToRead = document.getElementById('vision-text').textContent;
+            break;
+        case 'values':
+            textToRead = "Our core values are: " + 
+                        Array.from(document.getElementById('values-text').children)
+                            .map(li => li.textContent)
+                            .join(". ");
+            break;
+    }
+
+    // Create and configure utterance
+    const utterance = new SpeechSynthesisUtterance(textToRead);
+    Object.assign(utterance, bearVoiceSettings);
+
+    // Add bear personality
+    const bearIntro = {
+        mission: "Hey there! IRA Bear here. Let me tell you about our amazing mission!",
+        vision: "Oh boy! Let me share our exciting vision with you!",
+        values: "These values are beary important to us!"
+    };
+
+    // Combine intro and content
+    utterance.text = bearIntro[section] + " " + textToRead;
+
+    // Handle start of speech
+    utterance.onstart = () => {
+        isReading = true;
+        button.classList.add('playing');
+        button.innerHTML = '<i class="fas fa-pause"></i>';
+        activeButton = button;
+    };
+
+    // Handle end of speech
+    utterance.onend = () => {
+        stopReading();
+    };
+
+    // Handle errors
+    utterance.onerror = (event) => {
+        console.error('Speech synthesis error:', event);
+        stopReading();
+    };
+
+    // Store current utterance and start speaking
+    currentUtterance = utterance;
+    speechSynthesis.speak(utterance);
+}
+
+function stopReading() {
+    if (currentUtterance) {
+        speechSynthesis.cancel();
+    }
+    isReading = false;
+    if (activeButton) {
+        activeButton.classList.remove('playing');
+        activeButton.innerHTML = '<i class="fas fa-play"></i>';
+        activeButton = null;
+    }
+}
+
+// Create a simple bear mascot animation
+document.addEventListener('DOMContentLoaded', () => {
+    // Add random bear movements
+    const mascot = document.querySelector('.mascot-image');
+    if (mascot) {
+        setInterval(() => {
+            const randomAnimation = Math.random() > 0.5 ? 'bounce' : 'pulse';
+            mascot.style.animation = `${randomAnimation} 2s`;
+            setTimeout(() => {
+                mascot.style.animation = '';
+            }, 2000);
+        }, 5000);
+    }
+});
+
 // Initialize the suggestions list
 document.addEventListener('DOMContentLoaded', () => {
     updateSuggestionsList();
