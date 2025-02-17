@@ -199,5 +199,93 @@ header {
 .play-button:hover {
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" fill="%238B4513"/></svg>') 16 16, pointer;
 }
+    /* Add these new styles for the enhanced interaction */
+
+.bear-response {
+    background-color: #FFF8DC;
+    border-left: 4px solid #8B4513;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.bear-intro {
+    color: #8B4513;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.bear-answer {
+    line-height: 1.6;
+}
+
+.bear-message {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #8B4513;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.bear-message.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.suggestion-item {
+    background-color: #FFF8DC;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #8B4513;
+}
+
+.suggestion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.suggestion-text {
+    margin: 0.5rem 0;
+}
+
+.suggestion-status {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.talking {
+    animation: talking 0.5s infinite alternate;
+}
+
+@keyframes talking {
+    0% {
+        transform: scale(1) rotate(-5deg);
+    }
+    100% {
+        transform: scale(1.05) rotate(5deg);
+    }
+}
+
+.pending {
+    border-left-color: #FFA500;
+}
+
+.approved {
+    border-left-color: #4CAF50;
+}
+
+.rejected {
+    border-left-color: #FF4444;
+}
     
 }
