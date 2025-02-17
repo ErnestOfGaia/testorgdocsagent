@@ -6,8 +6,12 @@
     --text-color: #333333;
     --border-color: #dddddd;
     --shadow-color: rgba(0, 0, 0, 0.1);
+    --bear-brown: #8B4513;
+    --bear-brown-light: #A0522D;
+    --bear-brown-lighter: #CD853F;
 }
 
+/* Base Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -25,6 +29,7 @@ header {
     box-shadow: 0 2px 4px var(--shadow-color);
 }
 
+/* Layout */
 .container {
     max-width: 1200px;
     margin: 2rem auto;
@@ -40,6 +45,7 @@ header {
     gap: 1rem;
 }
 
+/* Cards */
 .content-card, .interaction-card {
     background-color: var(--card-background);
     border-radius: 8px;
@@ -52,6 +58,7 @@ header {
     transform: translateY(-2px);
 }
 
+/* Form Elements */
 .input-box {
     width: 100%;
     height: 100px;
@@ -87,6 +94,7 @@ header {
     background-color: var(--primary-hover);
 }
 
+/* Answer Display */
 .answer-box {
     margin-top: 1rem;
     padding: 1rem;
@@ -95,6 +103,7 @@ header {
     border-left: 4px solid var(--primary-color);
 }
 
+/* Suggestions List */
 #suggestions-list {
     list-style: none;
     padding: 0;
@@ -110,16 +119,7 @@ header {
     border-bottom: none;
 }
 
-@media (max-width: 768px) {
-    .container {
-        grid-template-columns: 1fr;
-    }
-    
-    .content-card, .interaction-card {
-        margin: 0.5rem 0;
-    }
-/* Add these new styles to your existing CSS */
-
+/* Mascot Styles */
 .mascot-container {
     display: flex;
     align-items: center;
@@ -143,6 +143,7 @@ header {
     font-style: italic;
 }
 
+/* Section Headers */
 .section-header {
     display: flex;
     align-items: center;
@@ -150,8 +151,9 @@ header {
     margin-bottom: 1rem;
 }
 
+/* Play Button */
 .play-button {
-    background-color: #8B4513; /* Brown color for bear theme */
+    background-color: var(--bear-brown);
     color: white;
     border: none;
     border-radius: 50%;
@@ -165,13 +167,84 @@ header {
 }
 
 .play-button:hover {
-    background-color: #A0522D;
+    background-color: var(--bear-brown-light);
     transform: scale(1.1);
 }
 
 .play-button.playing {
-    background-color: #CD853F;
+    background-color: var(--bear-brown-lighter);
     animation: pulse 1s infinite;
+}
+
+/* Bear Response Styles */
+.bear-response {
+    background-color: #FFF8DC;
+    border-left: 4px solid var(--bear-brown);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.bear-intro {
+    color: var(--bear-brown);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.bear-answer {
+    line-height: 1.6;
+}
+
+/* Bear Message */
+.bear-message {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: var(--bear-brown);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.bear-message.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Suggestion Items */
+.suggestion-item {
+    background-color: #FFF8DC;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--bear-brown);
+}
+
+.suggestion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.suggestion-text {
+    margin: 0.5rem 0;
+}
+
+.suggestion-status {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Animations */
+.talking {
+    animation: talking 0.5s infinite alternate;
 }
 
 @keyframes bounce {
@@ -195,78 +268,6 @@ header {
     }
 }
 
-/* Add a bear paw cursor */
-.play-button:hover {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" fill="%238B4513"/></svg>') 16 16, pointer;
-}
-    /* Add these new styles for the enhanced interaction */
-
-.bear-response {
-    background-color: #FFF8DC;
-    border-left: 4px solid #8B4513;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 0 8px 8px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.bear-intro {
-    color: #8B4513;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.bear-answer {
-    line-height: 1.6;
-}
-
-.bear-message {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background-color: #8B4513;
-    color: white;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    transform: translateY(100%);
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.bear-message.show {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.suggestion-item {
-    background-color: #FFF8DC;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-left: 4px solid #8B4513;
-}
-
-.suggestion-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.suggestion-text {
-    margin: 0.5rem 0;
-}
-
-.suggestion-status {
-    font-size: 0.9rem;
-    color: #666;
-}
-
-.talking {
-    animation: talking 0.5s infinite alternate;
-}
-
 @keyframes talking {
     0% {
         transform: scale(1) rotate(-5deg);
@@ -276,6 +277,7 @@ header {
     }
 }
 
+/* Status Colors */
 .pending {
     border-left-color: #FFA500;
 }
@@ -287,5 +289,25 @@ header {
 .rejected {
     border-left-color: #FF4444;
 }
+
+/* Bear Paw Cursor */
+.play-button:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" fill="%238B4513"/></svg>') 16 16, pointer;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
     
+    .content-card, .interaction-card {
+        margin: 0.5rem 0;
+    }
+    
+    .bear-message {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+    }
 }
