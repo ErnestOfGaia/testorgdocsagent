@@ -26,7 +26,7 @@ const legalKnowledge = {
 };
 
 // Add suggestion handling functions
-function createSuggestionElement(suggestion, sectionId) {
+function createSuggestionElement(suggestion) {
     const suggestionDiv = document.createElement('div');
     suggestionDiv.classList.add('suggestion-item');
     suggestionDiv.id = `suggestion-${suggestion.id}`;
@@ -34,19 +34,84 @@ function createSuggestionElement(suggestion, sectionId) {
     suggestionDiv.innerHTML = `
         <div class="suggestion-text">${suggestion.text}</div>
         <div class="suggestion-actions">
-            <button class="vote-button" onclick="voteSuggestion('${suggestion.id}', 'up')">
+            <button class="vote-button" 
+                    onclick="voteSuggestion('${suggestion.id}', 'up')" 
+                    data-tooltip="Give this suggestion a honey pot!">
                 <i class="fas fa-thumbs-up"></i>
                 <span class="vote-count">${suggestion.upvotes}</span>
             </button>
-            <button class="vote-button" onclick="voteSuggestion('${suggestion.id}', 'down')">
+            <button class="vote-button" 
+                    onclick="voteSuggestion('${suggestion.id}', 'down')" 
+                    data-tooltip="This suggestion needs more work">
                 <i class="fas fa-thumbs-down"></i>
                 <span class="vote-count">${suggestion.downvotes}</span>
+            </button>
+            <button class="resolve-button" 
+                    onclick="showConfirmationDialog('${suggestion.id}')" 
+                    data-tooltip="Mark as resolved">
+                <i class="fas fa-check"></i>
             </button>
         </div>
     `;
     
     return suggestionDiv;
 }
+
+// Add confirmation dialog HTML to the page
+document.body.insertAdjacentHTML('beforeend', `
+    <div id="confirmationDialog" class="confirmation-dialog">
+        <div class="confirmation-dialog-content">
+            <h3>Resolve Suggestion?</h3>
+            <p>Are you sure you want to mark this suggestion as resolved? This action cannot be undone.</p>
+            <div class="confirmation-buttons">
+                <button class="confirm-button" onclick="confirmResolve()">Yes, Resolve</button>
+                <button class="cancel-button" onclick="closeConfirmationDialog()">Cancel</button>
+            </div>
+        </div>
+    </div>
+`);
+
+// Confirmation dialog functions
+let currentSuggestionId = null;
+
+function showConfirmationDialog(suggestionId) {
+    currentSuggestionId = suggestionId;
+    document.getElementById('confirmationDialog').style.display = 'block';
+}
+
+function closeConfirmationDialog() {
+    document.getElementById('confirmationDialog').style.display = 'none';
+    currentSuggestionId = null;
+}
+
+function confirmResolve() {
+    if (currentSuggestionId) {
+        resolveSuggestion(currentSuggestionId);
+        closeConfirmationDialog();
+    }
+}
+
+// Updated resolveSuggestion function
+function resolveSuggestion(suggestionId) {
+    const suggestionElement = document.getElementById(`suggestion-${suggestionId}`);
+    if (suggestionElement) {
+        suggestionElement.style.animation = 'fadeOut 0.5s ease';
+        
+        setTimeout(() => {
+            suggestionElement.remove();
+            suggestions = suggestions.filter(s => s.id !== suggestionId);
+            appendMessage("🐻 Suggestion has been marked as resolved and stored in my honey pot!", 'bot');
+        }, 500);
+    }
+}
+
+// Add click outside handler for confirmation dialog
+document.addEventListener('click', function(event) {
+    const dialog = document.getElementById('confirmationDialog');
+    if (event.target === dialog) {
+        closeConfirmationDialog();
+    }
+});
 
 function voteSuggestion(suggestionId, voteType) {
     const suggestion = suggestions.find(s => s.id === suggestionId);
