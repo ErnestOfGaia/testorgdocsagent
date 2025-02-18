@@ -1,11 +1,16 @@
-// Google Sheets API endpoint
-const GOOGLE_SHEETS_API_ENDPOINT = 'https://script.google.com/macros/s/14kCTRFJd1UBlSfUnnb-kxP6VjPcjPwUiTou2Vf5iZHs/exec';
-const NFT_CONTRACT_ADDRESS = '0x0C41798fCc6353C1f8686aA1D43De57677B41C9A';
+// Configuration
+const GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbzvSsoNXLnYHq1tTcxX60FI_wBwraVhN666fJfo9PgNmzM_70wTtecoegLH2YqxXvLl/exec<AKfycbzvSsoNXLnYHq1tTcxX60FI_wBwraVhN666fJfo9PgNmzM_70wTtecoegLH2YqxXvLl>/exec';
+const ADMIN_NFT_CONTRACT = "0x0C41798fCc6353C1f8686aA1D43De57677B41C9A";
 
-// Admin wallet addresses
-const ADMIN_ADDRESSES = [
-    '0x88882e661ed8CB398b21F1Cf13651Bd8b47A0588',
-    '0x27E99e52daD989C491540b7cE8D5C4837bF792da'
+// NFT Contract ABI
+const ADMIN_NFT_ABI = [
+  {
+    "inputs": [{"internalType": "address", "name": "owner", "type": "address"}],
+    "name": "balanceOf",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+  }
 ];
 
 // Add to the top of script.js
