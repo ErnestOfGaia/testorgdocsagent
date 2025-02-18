@@ -1,3 +1,196 @@
+/* Add to styles.css */
+:root {
+    --honey-color: #FFA000;
+    --honey-dark: #FF8F00;
+    --honey-light: #FFE082;
+    --bear-brown: #8B4513;
+    --bear-light: #A0522D;
+    --cream: #FFF8E1;
+}
+
+.suggestions-container {
+    margin-top: 15px;
+    border-top: 2px solid var(--honey-light);
+    padding-top: 10px;
+    background: var(--cream);
+    border-radius: 8px;
+}
+
+.suggestions-container h4 {
+    color: var(--bear-brown);
+    padding: 5px 10px;
+    font-family: 'Comic Sans MS', cursive;  /* Gives a friendlier feel */
+}
+
+.suggestion-item {
+    background-color: #fff;
+    border-left: 4px solid var(--honey-color);
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);
+    transition: all 0.3s ease;
+}
+
+.suggestion-item:hover {
+    box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
+    transform: translateY(-2px);
+}
+
+.suggestion-text {
+    color: var(--bear-brown);
+    margin-bottom: 12px;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.suggestion-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid var(--honey-light);
+}
+
+.vote-button, .resolve-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.vote-button {
+    color: var(--honey-dark);
+}
+
+.resolve-button {
+    color: var(--honey-dark);
+}
+
+.vote-button:hover, .resolve-button:hover {
+    background-color: var(--honey-light);
+    transform: scale(1.1);
+}
+
+.vote-button.voted {
+    color: var(--honey-color);
+    animation: honeyDrip 0.5s ease;
+}
+
+.vote-count {
+    font-size: 0.8em;
+    color: var(--bear-brown);
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+/* Tooltip styles */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: var(--honey-color);
+    color: white;
+    font-size: 0.8em;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+}
+
+[data-tooltip]:hover:before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Animations */
+@keyframes honeyDrip {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Confirmation Dialog */
+.confirmation-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--cream);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+    z-index: 1100;
+    border: 2px solid var(--honey-color);
+    max-width: 400px;
+    width: 90%;
+}
+
+.confirmation-dialog-content {
+    text-align: center;
+}
+
+.confirmation-dialog h3 {
+    color: var(--bear-brown);
+    margin-bottom: 15px;
+    font-family: 'Comic Sans MS', cursive;
+}
+
+.confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.confirm-button, .cancel-button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.confirm-button {
+    background-color: var(--honey-color);
+    color: white;
+}
+
+.cancel-button {
+    background-color: var(--cream);
+    color: var(--bear-brown);
+    border: 2px solid var(--honey-color);
+}
+
+.confirm-button:hover, .cancel-button:hover {
+    transform: scale(1.05);
+}
+
 /* Base styles */
 * {
     margin: 0;
