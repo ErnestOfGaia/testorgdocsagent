@@ -1,3 +1,136 @@
+// Add to the top of script.js
+const termDefinitions = {
+    "multi-stakeholder cooperative": "A business owned and democratically controlled by different groups that have a stake in the organization's success, such as workers, consumers, and investors.",
+    "onchain technology": "Technology that operates on a blockchain, providing transparent and immutable record-keeping of transactions and data.",
+    "Public Benefit Corporation": "A for-profit corporation that includes positive impact on society, workers, the community and the environment in addition to profit as its legally defined goals.",
+    "Limited Cooperative Association": "A legal entity that combines cooperative principles with limited liability protection, as defined by state law.",
+    "democratic governance": "A system where members have equal voting rights in making organizational decisions.",
+    "smart contract automation": "Self-executing contracts with terms directly written into code that automatically enforce and execute agreements.",
+    "decentralized cooperative governance": "A governance model where decision-making power is distributed among members rather than centralized in a single authority.",
+    // Add more terms and definitions
+};
+
+const legalKnowledge = {
+    retirement: {
+        "IRA": "Individual Retirement Account - A tax-advantaged investment account for retirement savings, governed by IRC Section 408.",
+        "401(k)": "A tax-qualified, defined-contribution pension account defined in subsection 401(k) of the Internal Revenue Code.",
+        "ERISA": "The Employee Retirement Income Security Act of 1974 - Federal law that sets minimum standards for retirement and health plans in private industry.",
+        // Add more retirement-related terms
+    },
+    regulations: {
+        "SEC": "Securities and Exchange Commission - Federal agency responsible for enforcing federal securities laws and regulating the securities industry.",
+        "FINRA": "Financial Industry Regulatory Authority - A private corporation that acts as a self-regulatory organization.",
+        // Add more regulatory terms
+    }
+    // Add more categories
+};
+
+// Add suggestion handling functions
+function createSuggestionElement(suggestion, sectionId) {
+    const suggestionDiv = document.createElement('div');
+    suggestionDiv.classList.add('suggestion-item');
+    suggestionDiv.id = `suggestion-${suggestion.id}`;
+    
+    suggestionDiv.innerHTML = `
+        <div class="suggestion-text">${suggestion.text}</div>
+        <div class="suggestion-actions">
+            <button class="vote-button" onclick="voteSuggestion('${suggestion.id}', 'up')">
+                <i class="fas fa-thumbs-up"></i>
+                <span class="vote-count">${suggestion.upvotes}</span>
+            </button>
+            <button class="vote-button" onclick="voteSuggestion('${suggestion.id}', 'down')">
+                <i class="fas fa-thumbs-down"></i>
+                <span class="vote-count">${suggestion.downvotes}</span>
+            </button>
+        </div>
+    `;
+    
+    return suggestionDiv;
+}
+
+function voteSuggestion(suggestionId, voteType) {
+    const suggestion = suggestions.find(s => s.id === suggestionId);
+    if (!suggestion) return;
+    
+    if (voteType === 'up') {
+        suggestion.upvotes++;
+    } else {
+        suggestion.downvotes++;
+    }
+    
+    updateSuggestionDisplay(suggestionId);
+}
+
+// Enhance message processing to include term definitions
+function processMessage(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    // Check for term definition requests
+    for (const term in termDefinitions) {
+        if (lowerMessage.includes(`what is ${term}`) || 
+            lowerMessage.includes(`define ${term}`) ||
+            lowerMessage.includes(`explain ${term}`)) {
+            return `${term}: ${termDefinitions[term]}`;
+        }
+    }
+    
+    // Check for legal term requests
+    for (const category in legalKnowledge) {
+        for (const term in legalKnowledge[category]) {
+            if (lowerMessage.includes(term.toLowerCase())) {
+                return `${term}: ${legalKnowledge[category][term]}`;
+            }
+        }
+    }
+    
+    // Original message processing logic...
+    // (keep existing conditions)
+    
+    // Add more context-aware responses
+    if (lowerMessage.includes('law') || lowerMessage.includes('legal')) {
+        return "I can help explain various laws and regulations related to retirement accounts and cooperative organizations. What specific aspect would you like to know about?";
+    }
+    
+    if (lowerMessage.includes('term') || lowerMessage.includes('define')) {
+        return "I can help define terms used in our documentation. Which term would you like me to explain?";
+    }
+    
+    // Default response
+    return "I'm here to help you understand our organization, its terms, and related laws. Feel free to ask about specific terms or concepts!";
+}
+
+// Update submitEdit function to handle suggestion display
+function submitEdit(event) {
+    event.preventDefault();
+    
+    const section = document.getElementById('sectionSelect').value;
+    const suggestionText = document.getElementById('editSuggestion').value;
+    
+    if (!section || !suggestionText) return;
+    
+    const suggestion = {
+        id: Date.now().toString(),
+        text: suggestionText,
+        section: section,
+        timestamp: new Date(),
+        upvotes: 0,
+        downvotes: 0
+    };
+    
+    // Add to suggestions array
+    suggestions.push(suggestion);
+    
+    // Add to display
+    const suggestionsContainer = document.getElementById(`${section}-suggestions`);
+    suggestionsContainer.appendChild(createSuggestionElement(suggestion));
+    
+    // Add to chat
+    appendMessage(`Suggestion for ${section} section recorded:\n${suggestionText}`, 'user');
+    appendMessage("Thank you for your suggestion! It has been added to the document for review.", 'bot');
+    
+    closeEditModal();
+}
+
 // Chat and UI state management
 let chatHistory = [];
 const synth = window.speechSynthesis;
