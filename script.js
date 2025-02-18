@@ -271,7 +271,8 @@ const synth = window.speechSynthesis;
 let isReading = false;
 
 // Initialize when the page loads
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
+    initWeb3();
     // Display welcome message
     const welcomeMessage = "Hi! I'm IRA Bear, your document assistant. I can help you understand our mission, vision, and core values. You can also suggest edits to improve the content. What would you like to know?";
     appendMessage(welcomeMessage, 'bot');
