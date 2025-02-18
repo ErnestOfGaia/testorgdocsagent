@@ -348,17 +348,34 @@ function processMessage(message) {
     }, 500);
 }
 
-function appendMessage(message, sender) {
-    const chatContainer = document.getElementById('chatContainer');
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('chat-message', `${sender}-message`);
-    messageElement.textContent = message;
+function addMessage(text, isBot = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isBot ? 'bot-message' : 'user-message'}`;
+    messageDiv.textContent = text;
     
-    chatContainer.appendChild(messageElement);
+    const chatContainer = document.getElementById('chatContainer');
+    chatContainer.appendChild(messageDiv);
     chatContainer.scrollTop = chatContainer.scrollHeight;
     
     // Add to chat history
-    chatHistory.push({ message, sender, timestamp: new Date() });
+    chatHistory.push({ message: text, sender: isBot ? 'bot' : 'user', timestamp: new Date() });
+}
+
+function sendMessage() {
+    const messageInput = document.getElementById('messageInput');
+    const message = messageInput.value.trim();
+    
+    if (message) {
+        // Add user message
+        addMessage(message, false);
+        
+        // Add bot response (placeholder)
+        setTimeout(() => {
+            addMessage("I'm IRA Bear! I'm here to help you understand the document. What would you like to know?", true);
+        }, 500);
+        
+        messageInput.value = '';
+    }
 }
 
 // Text-to-Speech functions
