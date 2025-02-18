@@ -16,8 +16,9 @@
         </div>
     </header>
     
-    <div class="container">
-        <div class="section document-content">
+    <div class="main-container">
+        <!-- Left side: Document Content -->
+        <div class="document-section">
             <h2>Document Content</h2>
             <div class="content-card">
                 <div class="section-header">
@@ -56,40 +57,41 @@
             </div>
         </div>
 
-        <!-- Chat Interface -->
-        <div class="chat-interface">
+        <!-- Right side: Chat Interface -->
+        <div class="chat-section">
             <div class="chat-container" id="chatContainer">
-                <!-- Chat messages will be inserted here -->
+                <!-- Chat messages will appear here -->
             </div>
             <div class="chat-controls">
-                <textarea id="messageInput" placeholder="Type your message here..." rows="3"></textarea>
+                <textarea id="messageInput" placeholder="Ask IRA Bear about the document..." rows="3"></textarea>
                 <div class="button-group">
-                    <button onclick="sendMessage()" class="primary-button">Send</button>
+                    <button onclick="sendMessage()" class="primary-button">Send Message</button>
                     <button onclick="openEditModal()" class="secondary-button">Suggest Edit</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Edit Suggestion Modal -->
-        <div id="editModal" class="modal">
-            <div class="modal-content">
-                <h3>Suggest an Edit</h3>
-                <form class="edit-form" onsubmit="submitEdit(event)">
-                    <select id="sectionSelect" required>
-                        <option value="">Select a section</option>
-                        <option value="mission">Mission</option>
-                        <option value="vision">Vision</option>
-                        <option value="values">Core Values</option>
-                    </select>
-                    <textarea id="editSuggestion" placeholder="Enter your suggested changes..." required></textarea>
-                    <div class="modal-buttons">
-                        <button type="submit" class="primary-button">Submit</button>
-                        <button type="button" onclick="closeEditModal()" class="secondary-button">Cancel</button>
-                    </div>
-                </form>
-            </div>
+    <!-- Edit Suggestion Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3>Suggest an Edit</h3>
+            <form class="edit-form" onsubmit="submitEdit(event)">
+                <select id="sectionSelect" required>
+                    <option value="">Select a section to edit</option>
+                    <option value="mission">Mission</option>
+                    <option value="vision">Vision</option>
+                    <option value="values">Core Values</option>
+                </select>
+                <textarea id="editSuggestion" placeholder="Enter your suggested changes..." required></textarea>
+                <div class="modal-buttons">
+                    <button type="submit" class="primary-button">Submit Suggestion</button>
+                    <button type="button" onclick="closeEditModal()" class="secondary-button">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
