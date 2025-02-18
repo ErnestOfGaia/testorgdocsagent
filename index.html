@@ -3,106 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>myIRA.Fund Document Assistant</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Forest Bear Editor</title>
+    <style>
+        :root {
+            --forest-green: #2c5530;
+            --honey-gold: #ffa726;
+            --bark-brown: #5d4037;
+            --leaf-light: #81c784;
+            --cream: #fff8e1;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cream);
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        header {
+            background-color: var(--forest-green);
+            color: var(--cream);
+            padding: 1rem;
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1rem;
+            background-color: var(--bark-brown);
+            color: var(--cream);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tab:hover {
+            background-color: var(--honey-gold);
+        }
+
+        .tab.active {
+            background-color: var(--honey-gold);
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 250px 1fr 400px;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .suggestions {
+            background-color: var(--leaf-light);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .content {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            min-height: 400px;
+        }
+
+        .chatbot {
+            background-color: var(--leaf-light);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bear-avatar {
+            width: 100px;
+            height: 100px;
+            background-color: var(--honey-gold);
+            border-radius: 50%;
+            margin: 1rem auto;
+            position: relative;
+        }
+
+        .bear-avatar::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: var(--bark-brown);
+            border-radius: 50%;
+            top: 20px;
+            left: 20px;
+        }
+
+        .bear-avatar::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: var(--bark-brown);
+            border-radius: 50%;
+            top: 20px;
+            right: 20px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            background-color: white;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            min-height: 200px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--forest-green);
+            border-radius: 4px;
+        }
+
+        .chat-input button {
+            padding: 0.5rem 1rem;
+            background-color: var(--forest-green);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: var(--forest-green);
+            color: var(--cream);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .suggestion-item {
+            background-color: white;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .remove-suggestion {
+            background-color: var(--bark-brown);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <div class="header-container">
-            <div class="mascot-container">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMjAwIDIwMCI+CiAgPCEtLSBCZWFyIEJvZHkgLS0+CiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MCIgZmlsbD0iIzhCNDUxMyIvPgogIDwhLS0gRWFycyAtLT4KICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIyMCIgZmlsbD0iIzhCNDUxMyIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjQwIiByPSIyMCIgZmlsbD0iIzhCNDUxMyIvPgogIDwhLS0gRXllcyAtLT4KICA8Y2lyY2xlIGN4PSI3MCIgY3k9IjgwIiByPSIxMCIgZmlsbD0iI0ZGRiIvPgogIDxjaXJjbGUgY3g9IjEzMCIgY3k9IjgwIiByPSIxMCIgZmlsbD0iI0ZGRiIvPgogIDxjaXJjbGUgY3g9IjcwIiBjeT0iODAiIHI9IjUiIGZpbGw9IiMwMDAiLz4KICA8Y2lyY2xlIGN4PSIxMzAiIGN5PSI4MCIgcj0iNSIgZmlsbD0iIzAwMCIvPgogIDwhLS0gTm9zZSAtLT4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMTAiIHI9IjE1IiBmaWxsPSIjMDAwIi8+CiAgPCEtLSBNb3V0aCAtLT4KICA8cGF0aCBkPSJNNzAsMTMwIFE5MCwxNTAgMTMwLDEzMCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz4KPC9zdmc+" alt="IRA Bear Mascot" class="mascot-image">
-                <h1>myIRA.Fund Document Assistant</h1>
-                <p class="mascot-intro">Hi! I'm IRA Bear, your friendly guide!</p>
-            </div>
+        <h1>Forest Bear Editor</h1>
+        <div class="tab-container">
+            <button class="tab active">Section 1</button>
+            <button class="tab">Section 2</button>
+            <button class="tab">Section 3</button>
         </div>
     </header>
-    
-    <div class="main-container">
-        <!-- Add this inside each content-card div, after the paragraph/list -->
-    
-        <!-- Left side: Suggested Edits Section -->
-    <div class="suggestions-section">
-        <h2>Suggested Edits</h2>
-        <div id="suggestedEditsList" class="suggestions-list">
-            <!-- Suggestions will be dynamically added here -->
-        </div>
-    </div>
-        <!-- Middle: Document Content -->
-        <div class="document-section">
-            <h2>Document Content</h2>
-            <div class="content-card">
-                <div class="section-header">
-                    <h3>Mission</h3>
-                    <button class="play-button" onclick="readSection('mission')" title="Let IRA Bear read this section">
-                        <i class="fas fa-play"></i>
-                    </button>
-                </div>
-                <p id="mission-text">myIRA.Fund is a multi-stakeholder cooperative leveraging onchain technology to provide innovative, member-focused financial solutions. As a Colorado Public Benefit Corporation (PBC) operating as a Limited Cooperative Association (LCA), we are member-owned and governed, ensuring every participant has a voice in shaping their financial future.</p>
-            </div>
-            
-            <div class="content-card">
-                <div class="section-header">
-                    <h3>Vision</h3>
-                    <button class="play-button" onclick="readSection('vision')" title="Let IRA Bear read this section">
-                        <i class="fas fa-play"></i>
-                    </button>
-                </div>
-                <p id="vision-text">We envision a future where every individual has equal access to secure, transparent, and community-driven retirement savings, leveraging AI-driven financial insights, smart contract automation, and decentralized cooperative governance.</p>
-            </div>
-            
-            <div class="content-card">
-                <div class="section-header">
-                    <h3>Core Values</h3>
-                    <button class="play-button" onclick="readSection('values')" title="Let IRA Bear read this section">
-                        <i class="fas fa-play"></i>
-                    </button>
-                </div>
-                <ul id="values-text">
-                    <li>Democratic Governance & Member Ownership</li>
-                    <li>Security & Compliance</li>
-                    <li>Innovation & Accessibility</li>
-                    <li>Transparency & Trust</li>
-                    <li>Cooperation & Collective Growth</li>
-                </ul>
-            </div>
-        </div>
 
-        <!-- Right side: Chat Interface -->
-        <div class="chat-section">
-            <div class="chat-container" id="chatContainer">
+    <main>
+        <section class="suggestions">
+            <h2>Edit Suggestions</h2>
+            <div id="suggestionsList">
+                <!-- Suggestions will be added here -->
+            </div>
+        </section>
+
+        <section class="content" id="mainContent">
+            <!-- Content will be loaded here -->
+            <p>Welcome to the Forest Bear Editor! Select a tab to begin editing.</p>
+        </section>
+
+        <section class="chatbot">
+            <div class="bear-avatar"></div>
+            <div class="chat-messages" id="chatMessages">
                 <!-- Chat messages will appear here -->
             </div>
-            <div class="chat-controls">
-                <textarea id="messageInput" placeholder="Ask IRA Bear about the document..." rows="3"></textarea>
-                <div class="button-group">
-                    <button onclick="sendMessage()" class="primary-button">Send Message</button>
-                    <button onclick="openEditModal()" class="secondary-button">Suggest Edit</button>
-                </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Ask for editing suggestions...">
+                <button>Send</button>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <!-- Edit Suggestion Modal -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <h3>Suggest an Edit</h3>
-            <form class="edit-form" onsubmit="submitEdit(event)">
-                <select id="sectionSelect" required>
-                    <option value="">Select a section to edit</option>
-                    <option value="mission">Mission</option>
-                    <option value="vision">Vision</option>
-                    <option value="values">Core Values</option>
-                </select>
-                <textarea id="editSuggestion" placeholder="Enter your suggested changes..." required></textarea>
-                <div class="modal-buttons">
-                    <button type="submit" class="primary-button">Submit Suggestion</button>
-                    <button type="button" onclick="closeEditModal()" class="secondary-button">Cancel</button>
+    <footer>
+        <p>Forest Bear Editor © 2024</p>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tab');
+        const content = document.getElementById('mainContent');
+        const sections = {
+            'Section 1': 'This is the content for section 1.',
+            'Section 2': 'This is the content for section 2.',
+            'Section 3': 'This is the content for section 3.'
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                content.innerHTML = `<p>${sections[tab.textContent]}</p>`;
+            });
+        });
+
+        // Chatbot functionality
+        const chatInput = document.querySelector('.chat-input input');
+        const chatButton = document.querySelector('.chat-input button');
+        const chatMessages = document.getElementById('chatMessages');
+        const suggestionsList = document.getElementById('suggestionsList');
+        let suggestions = [];
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.style.marginBottom = '10px';
+            messageDiv.style.textAlign = isUser ? 'right' : 'left';
+            messageDiv.innerHTML = `<strong>${isUser ? 'You' : 'Bear'}</strong>: ${message}`;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addSuggestion(suggestion) {
+            suggestions.push(suggestion);
+            updateSuggestionsList();
+        }
+
+        function updateSuggestionsList() {
+            suggestionsList.innerHTML = suggestions.map((suggestion, index) => `
+                <div class="suggestion-item">
+                    <span>${suggestion}</span>
+                    <button class="remove-suggestion" onclick="removeSuggestion(${index})">✓</button>
                 </div>
-            </form>
-        </div>
-    </div>
+            `).join('');
+        }
 
-    <script src="script.js"></script>
+        function removeSuggestion(index) {
+            suggestions.splice(index, 1);
+            updateSuggestionsList();
+        }
+
+        chatButton.addEventListener('click', () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                // Simulate bear response
+                setTimeout(() => {
+                    const suggestion = `Consider revising: "${message}"`;
+                    addMessage(`I suggest: ${suggestion}`);
+                    addSuggestion(suggestion);
+                }, 500);
+                chatInput.value = '';
+            }
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                chatButton.click();
+            }
+        });
+    </script>
 </body>
 </html>
