@@ -315,6 +315,26 @@ function submitEdit(event) {
     closeEditModal();
 }
 
+// Add to script.js
+const iraBearPersonality = {
+    expertise: [
+        "Retirement account regulations",
+        "Cooperative business structures",
+        "US securities laws",
+        "Tax implications of different retirement vehicles",
+        "Corporate governance models"
+    ],
+    background: "I'm programmed with comprehensive knowledge of US retirement laws, cooperative structures, and financial regulations. I stay updated with the latest changes in relevant legislation.",
+    style: "friendly and informative, using clear language to explain complex legal and financial concepts",
+};
+
+// Enhance the initial greeting
+document.addEventListener('DOMContentLoaded', function() {
+    const welcomeMessage = `Hi! I'm IRA Bear, your document assistant. I specialize in retirement accounts, cooperative structures, and US financial regulations. I can help you understand our documentation and explain any terms or concepts. What would you like to know?`;
+    appendMessage(welcomeMessage, 'bot');
+    setupEventListeners();
+});
+
 // Helper function to format timestamps
 function formatTimestamp(date) {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
