@@ -1,17 +1,39 @@
 // Tab switching functionality
 const tabs = document.querySelectorAll('.tab');
 const content = document.getElementById('mainContent');
-const sections = {
-    'Section 1': 'This is the content for section 1.',
-    'Section 2': 'This is the content for section 2.',
-    'Section 3': 'This is the content for section 3.'
-};
 
+// Function to load HTML content
+async function loadContent(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const content = await response.text();
+        return content;
+    } catch (error) {
+        console.error('Error loading content:', error);
+        return '<p>Error loading content. Please try again.</p>';
+    }
+}
+
+// Handle tab switching
 tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
+    tab.addEventListener('click', async () => {
+        // Remove active class from all tabs
         tabs.forEach(t => t.classList.remove('active'));
+        // Add active class to clicked tab
         tab.classList.add('active');
-        content.innerHTML = `<p>${sections[tab.textContent]}</p>`;
+        
+        // Load appropriate content based on tab
+        if (tab.textContent === 'Section 1') {
+            const sectionContent = await loadContent('section1.html');
+            content.innerHTML = sectionContent;
+        } else if (tab.textContent === 'Section 2') {
+            content.innerHTML = '<p>This is the content for section 2.</p>';
+        } else if (tab.textContent === 'Section 3') {
+            content.innerHTML = '<p>This is the content for section 3.</p>';
+        }
     });
 });
 
@@ -68,4 +90,10 @@ chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         chatButton.click();
     }
+});
+
+// Load Section 1 content by default when the page loads
+window.addEventListener('DOMContentLoaded', async () => {
+    const sectionContent = await loadContent('section1.html');
+    content.innerHTML = sectionContent;
 });
