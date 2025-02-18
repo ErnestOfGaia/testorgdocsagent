@@ -10,12 +10,9 @@ body {
     line-height: 1.6;
     background-color: #f5f5f5;
     color: #333;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Header styles */
@@ -29,17 +26,50 @@ header {
     display: flex;
     align-items: center;
     gap: 20px;
-    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .mascot-image {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
 }
 
 .mascot-intro {
     font-size: 1.2em;
     color: #666;
+}
+
+/* Main container for split layout */
+.main-container {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    height: calc(100vh - 120px); /* Adjust based on header height */
+}
+
+/* Document section (left side) */
+.document-section {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Chat section (right side) */
+.chat-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 /* Content card styles */
@@ -48,7 +78,7 @@ header {
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
 }
 
 .section-header {
@@ -71,19 +101,11 @@ header {
 }
 
 /* Chat interface styles */
-.chat-interface {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .chat-container {
-    height: 400px;
+    flex: 1;
     overflow-y: auto;
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #eee;
     border-radius: 8px;
     margin-bottom: 15px;
 }
@@ -127,7 +149,8 @@ header {
 }
 
 /* Button styles */
-.primary-button, .secondary-button {
+.primary-button,
+.secondary-button {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
@@ -183,7 +206,8 @@ header {
     gap: 15px;
 }
 
-#sectionSelect, #editSuggestion {
+#sectionSelect,
+#editSuggestion {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -198,8 +222,14 @@ header {
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .container {
-        padding: 10px;
+    .main-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .document-section,
+    .chat-section {
+        width: 100%;
     }
 
     .chat-container {
