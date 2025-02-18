@@ -240,4 +240,57 @@ header {
         width: 95%;
         margin: 20px auto;
     }
+/* Add to styles.css */
+.suggestions-container {
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.suggestion-item {
+    background-color: #f8f9fa;
+    border-left: 3px solid #007bff;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    position: relative;
+}
+
+.suggestion-text {
+    margin-bottom: 8px;
+}
+
+.suggestion-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.vote-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: #6c757d;
+    transition: color 0.2s;
+}
+
+.vote-button:hover {
+    color: #007bff;
+}
+
+.vote-button.voted {
+    color: #007bff;
+}
+
+.vote-button.voted-down {
+    color: #dc3545;
+}
+
+.vote-count {
+    font-size: 0.8em;
+    color: #6c757d;
+    margin: 0 5px;
+}
+    
 }
