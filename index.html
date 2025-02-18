@@ -18,13 +18,15 @@
     
     <div class="main-container">
         <!-- Add this inside each content-card div, after the paragraph/list -->
-<div class="suggestions-container">
-    <h4>Suggested Edits</h4>
-    <div class="suggestions-list" id="${sectionId}-suggestions">
-        <!-- Suggestions will be dynamically added here -->
+    
+        <!-- Left side: Suggested Edits Section -->
+    <div class="suggestions-section">
+        <h2>Suggested Edits</h2>
+        <div id="suggestedEditsList" class="suggestions-list">
+            <!-- Suggestions will be dynamically added here -->
+        </div>
     </div>
-</div>
-        <!-- Left side: Document Content -->
+        <!-- Middle: Document Content -->
         <div class="document-section">
             <h2>Document Content</h2>
             <div class="content-card">
