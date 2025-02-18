@@ -5,6 +5,9 @@
     top: 20px;
     right: 20px;
     z-index: 1000;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .wallet-button {
@@ -23,16 +26,32 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.wallet-button:hover {
-    background-color: #45a049;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
 .wallet-button.connected {
     background-color: #2196F3;
 }
 
-.wallet-button i {
-    font-size: 20px;
+.admin-button {
+    background-color: #FF9800;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.admin-button:hover {
+    background-color: #F57C00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.admin-button:disabled {
+    background-color: #ccc;
 }
